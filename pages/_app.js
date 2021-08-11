@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
 
-      <header className="h-16 w-container mx-auto px-5 text-black text-lg flex">
+      <header className="h-16 w-container mx-auto px-5 text-black text-lg flex font-inter">
         <Link href="/">
           <div className={`mx-3 cursor-pointer flex items-center font-bold`}>
             Goalr
