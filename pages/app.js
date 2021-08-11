@@ -14,7 +14,9 @@ const cards = [
       { value: 100 },
       { value: 106 },
     ],
+    goal: 110,
     units: "WPM",
+    inspiration: `Don't be pushed around by the fears in your mind. Be led by the dreams in your heart.`,
     isManualEntry: false,
   },
   {
@@ -30,7 +32,9 @@ const cards = [
       { value: 165 },
       { value: 170 },
     ],
+    goal: 180,
     units: "LBs",
+    inspiration: `Live the Life of Your Dreams: Be brave enough to live the life of your dreams according to your vision and purpose instead of the expectations and opinions of others.`,
     isManualEntry: true,
   },
   {
@@ -42,7 +46,9 @@ const cards = [
       { value: 95 },
       { value: 140 },
     ],
+    goal: 200,
     units: "$",
+    inspiration: `Believe in yourself. You are braver than you think, more talented than you know, and capable of more than you imagine.`,
     isManualEntry: true,
   },
 ];
@@ -82,6 +88,11 @@ export default function Home() {
                     (card.data.length >= 5 ? 5 : card.data.length)}{" "}
                   {card.units !== "$" && card.units}
                 </p>
+                <h4 className="text-md opacity-50">Goal</h4>
+                <p className="text-lg font-medium">
+                  {card.units === "$" && card.units}
+                  {card.goal} {card.units !== "$" && card.units}
+                </p>
               </div>
               <div className="w-96 h-32">
                 <ResponsiveContainer width="100%" height="100%">
@@ -96,21 +107,34 @@ export default function Home() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-              <div className="flex items-center">
-                {card.isManualEntry ? (
-                  <button className="text-lg text-white bg-blue-600 px-8 py-3 rounded-md flex items-center">
-                    <MdAdd className="mr-2" />
-                    Add Entry
+              <div className="flex flex-col w-min">
+                <div className="flex items-center">
+                  {card.isManualEntry ? (
+                    <button className="text-lg text-white bg-blue-600 px-8 py-3 rounded-md flex items-center w-max">
+                      <MdAdd className="mr-2" />
+                      Add Entry
+                    </button>
+                  ) : (
+                    <button className="text-lg text-white bg-blue-600 px-8 py-3 rounded-md flex items-center">
+                      <MdRefresh className="mr-2" />
+                      Refresh
+                    </button>
+                  )}
+                  <button className="text-lg text-white bg-blue-600 rounded-md ml-2 p-3.5">
+                    <MdSettings className="h-6 w-6" />
                   </button>
-                ) : (
-                  <button className="text-lg text-white bg-blue-600 px-8 py-3 rounded-md flex items-center">
-                    <MdRefresh className="mr-2" />
-                    Refresh
-                  </button>
-                )}
-                <button className="text-lg text-white bg-blue-600 rounded-md ml-2 p-3.5">
-                  <MdSettings className="h-6 w-6" />
-                </button>
+                </div>
+                <div className="mt-4">
+                  <h4 className="text-md opacity-50">Remember</h4>
+                  <p className="text-lg font-medium">
+                    {card.inspiration.length > (card.isManualEntry ? 95 : 85)
+                      ? card.inspiration.substring(
+                          0,
+                          card.isManualEntry ? 92 : 82
+                        ) + "..."
+                      : card.inspiration}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
