@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { LineChart, Line, YAxis, ResponsiveContainer } from "recharts";
 import { MdRefresh, MdAdd, MdSettings } from "react-icons/md";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 
 const cards = [
   {
@@ -54,6 +56,8 @@ const cards = [
 ];
 
 export default function Home() {
+  const [user, loading, error] = useAuthState(getAuth());
+  console.log("Loading: ", loading, " | ", "User: ", user);
   return (
     <div className="flex flex-col w-container mx-auto px-3 font-inter">
       <Head>
@@ -126,7 +130,7 @@ export default function Home() {
                 </div>
                 <div className="mt-4">
                   <h4 className="text-md opacity-50">Remember</h4>
-                  <p className="text-lg font-medium">
+                  <p className="text-lg font-medium" title={card.inspiration}>
                     {card.inspiration.length > (card.isManualEntry ? 95 : 85)
                       ? card.inspiration.substring(
                           0,
