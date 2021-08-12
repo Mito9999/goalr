@@ -27,9 +27,9 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
 
-      <header className="h-16 w-container mx-auto px-5 text-black text-lg flex font-inter">
+      <header className="h-16 w-container mx-auto px-3 text-black text-lg flex font-inter">
         <Link href="/">
-          <div className={`mx-3 cursor-pointer flex items-center font-bold`}>
+          <div className={`mr-3 cursor-pointer flex items-center font-bold`}>
             Goalr
           </div>
         </Link>
@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }) {
         {user ? (
           <>
             <Link href="/profile">
-              <div className={`mx-3 ml-auto cursor-pointer flex items-center`}>
+              <div className={`ml-auto cursor-pointer flex items-center`}>
                 Profile
               </div>
             </Link>
@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }) {
               </div>
             </Link>
             <Link href="/login">
-              <div className={`mx-3 cursor-pointer flex items-center`}>
+              <div className={`ml-3 cursor-pointer flex items-center`}>
                 Login
               </div>
             </Link>

@@ -59,21 +59,21 @@ export default function Home() {
   const [user, loading, error] = useAuthState(getAuth());
   console.log("Loading: ", loading, " | ", "User: ", user);
   return (
-    <div className="flex flex-col w-container mx-auto px-3 font-inter">
+    <div className="flex flex-col w-cardContainer mx-auto px-3 font-inter">
       <Head>
         <title>Goalr App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="my-4">
+        <div className="my-4 pl-6">
           <h2 className="text-xl opacity-50">Welcome Back, Mito!</h2>
           <h1 className="text-3xl font-bold">Goals</h1>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-cardContainer">
           {cards.map((card) => (
             <div
               key={card.title}
-              className="bg-gray-50 my-3 rounded-md p-6 border border-gray-200 flex justify-between items-center"
+              className="bg-gray-50 my-3 rounded-md p-8 border border-gray-200 flex justify-between items-center"
             >
               <div>
                 <h3 className="text-xl font-semibold mb-2">{card.title}</h3>

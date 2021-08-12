@@ -10,6 +10,7 @@ module.exports = {
       colors: {},
       width: {
         container: "1010px",
+        cardContainer: "1064px",
       },
       height: {
         hero: "540px",
