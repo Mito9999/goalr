@@ -2,10 +2,15 @@ import "tailwindcss/tailwind.css";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import firebaseApp from "../firebase/clientApp";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const route = router.pathname;
+
+  const [user, loading, error] = useAuthState(getAuth(firebaseApp));
 
   return (
     <>
@@ -28,19 +33,34 @@ function MyApp({ Component, pageProps }) {
             Goalr
           </div>
         </Link>
-        <Link href="/dashboard">
+        <Link href="/app">
           <div className={`mx-3 cursor-pointer flex items-center`}>
             Dashboard
           </div>
         </Link>
-        <Link href="/signup">
-          <div className={`mx-3 ml-auto cursor-pointer flex items-center`}>
-            Sign Up
-          </div>
-        </Link>
-        <Link href="/login">
-          <div className={`mx-3 cursor-pointer flex items-center`}>Login</div>
-        </Link>
+
+        {user ? (
+          <>
+            <Link href="/profile">
+              <div className={`mx-3 ml-auto cursor-pointer flex items-center`}>
+                Profile
+              </div>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href="/signup">
+              <div className={`mx-3 ml-auto cursor-pointer flex items-center`}>
+                Sign Up
+              </div>
+            </Link>
+            <Link href="/login">
+              <div className={`mx-3 cursor-pointer flex items-center`}>
+                Login
+              </div>
+            </Link>
+          </>
+        )}
       </header>
       <Component {...pageProps} />
     </>
