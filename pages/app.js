@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 export default function Home() {
-  const [user, loading] = useAuthState(getAuth());
+  const [user, isUserLoading] = useAuthState(getAuth());
   const [cards, setCards] = useState([]);
   const [isLoadingCards, setIsLoadingCards] = useState(false);
   const [userHasGoals, setUserHasGoals] = useState(true);
@@ -50,7 +50,7 @@ export default function Home() {
               Welcome Back, {user.displayName}!
             </h2>
           ) : (
-            <h2 className="text-xl opacity-50">Welcome!</h2>
+            <h2 className="text-xl opacity-50">Log in to save your goals!</h2>
           )}
 
           <h1 className="text-3xl font-bold flex">

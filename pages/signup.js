@@ -1,9 +1,16 @@
 import { createUserWithEmail } from "../firebase/clientApp";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Auth() {
   const router = useRouter();
+  const [user, isUserLoading] = useAuthState(getAuth());
+
+  if (user && !isUserLoading) {
+    router.push("/profile");
+  }
 
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
