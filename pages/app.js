@@ -29,10 +29,12 @@ export default function Home() {
           }
         } else {
           console.log("No document found!");
+          setUserHasGoals(false);
         }
         setIsLoadingCards(false);
       })();
     }
+    console.log(user);
   }, [user]);
 
   return (
@@ -43,7 +45,14 @@ export default function Home() {
       </Head>
       <main>
         <div className="my-4 pl-6">
-          <h2 className="text-xl opacity-50">Welcome Back, Mito!</h2>
+          {user ? (
+            <h2 className="text-xl opacity-50">
+              Welcome Back, {user.displayName}!
+            </h2>
+          ) : (
+            <h2 className="text-xl opacity-50">Welcome!</h2>
+          )}
+
           <h1 className="text-3xl font-bold flex">
             Goals{" "}
             {isLoadingCards && (
@@ -157,7 +166,7 @@ export default function Home() {
             <div
               className="bg-gray-50 my-3 rounded-md p-8 border border-gray-200 flex justify-center items-center text-4xl cursor-pointer"
               onClick={() => {
-                console.log("Feature coming soon...");
+                seedDb(user.uid);
               }}
             >
               <MdAdd />

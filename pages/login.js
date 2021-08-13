@@ -1,7 +1,9 @@
 import { signInWithEmail } from "../firebase/clientApp";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Auth() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,7 +14,11 @@ export default function Auth() {
         onSubmit={(e) => {
           e.preventDefault();
           if (password.length >= 8) {
-            signInWithEmail(email, password);
+            signInWithEmail(email, password).then((success) => {
+              if (success) {
+                router.push("/app");
+              }
+            });
           }
         }}
         className="flex flex-col"
