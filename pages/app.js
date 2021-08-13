@@ -3,61 +3,30 @@ import { LineChart, Line, YAxis, ResponsiveContainer } from "recharts";
 import { MdRefresh, MdAdd, MdSettings } from "react-icons/md";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
-
-const cards = [
-  {
-    title: "Typing",
-    data: [
-      { value: 92 },
-      { value: 105 },
-      { value: 94 },
-      { value: 102 },
-      { value: 103 },
-      { value: 100 },
-      { value: 106 },
-    ],
-    goal: 110,
-    units: "WPM",
-    inspiration: `Don't be pushed around by the fears in your mind. Be led by the dreams in your heart.`,
-    isManualEntry: false,
-  },
-  {
-    title: "Lifting",
-    data: [
-      { value: 150 },
-      { value: 150 },
-      { value: 155 },
-      { value: 160 },
-      { value: 160 },
-      { value: 160 },
-      { value: 165 },
-      { value: 165 },
-      { value: 170 },
-    ],
-    goal: 180,
-    units: "LBs",
-    inspiration: `Live the Life of Your Dreams: Be brave enough to live the life of your dreams according to your vision and purpose instead of the expectations and opinions of others.`,
-    isManualEntry: true,
-  },
-  {
-    title: "Income",
-    data: [
-      { value: 100 },
-      { value: 110 },
-      { value: 120 },
-      { value: 95 },
-      { value: 140 },
-    ],
-    goal: 200,
-    units: "$",
-    inspiration: `Believe in yourself. You are braver than you think, more talented than you know, and capable of more than you imagine.`,
-    isManualEntry: true,
-  },
-];
+import { seedDb } from "../firebase/clientApp";
+import { useEffect, useState } from "react";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 export default function Home() {
-  const [user, loading, error] = useAuthState(getAuth());
-  console.log("Loading: ", loading, " | ", "User: ", user);
+  const [user, loading] = useAuthState(getAuth());
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      (async () => {
+        const db = getFirestore();
+        const docRef = doc(db, "userGoals", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setCards(docSnap.data().goals);
+        } else {
+          console.log("No document found!");
+        }
+      })();
+    }
+  }, [user]);
+
   return (
     <div className="flex flex-col w-cardContainer mx-auto px-3 font-inter">
       <Head>
@@ -69,7 +38,7 @@ export default function Home() {
           <h2 className="text-xl opacity-50">Welcome Back, Mito!</h2>
           <h1 className="text-3xl font-bold">Goals</h1>
         </div>
-        <div className="flex flex-col w-cardContainer">
+        <div className="flex flex-col w-cardContainer mb-8">
           {cards.map((card) => (
             <div
               key={card.title}
@@ -142,6 +111,12 @@ export default function Home() {
               </div>
             </div>
           ))}
+          <div
+            className="bg-gray-50 my-3 rounded-md p-8 border border-gray-200 flex justify-center items-center text-4xl cursor-pointer"
+            onClick={() => seedDb()}
+          >
+            <MdAdd />
+          </div>
         </div>
       </main>
     </div>
