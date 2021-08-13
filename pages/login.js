@@ -9,7 +9,7 @@ export default function Auth() {
   const [user, isUserLoading] = useAuthState(getAuth());
 
   if (user && !isUserLoading) {
-    router.push("/profile");
+    router.push("/account");
   }
 
   const [email, setEmail] = useState("");

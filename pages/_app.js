@@ -41,9 +41,9 @@ function MyApp({ Component, pageProps }) {
 
         {user ? (
           <>
-            <Link href="/profile">
+            <Link href="/account">
               <div className={`ml-auto cursor-pointer flex items-center`}>
-                Profile
+                Account
               </div>
             </Link>
           </>

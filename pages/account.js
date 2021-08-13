@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebaseApp, { logOut } from "../firebase/clientApp";
 
-export default function Home() {
-  const [user, loading, error] = useAuthState(getAuth(firebaseApp));
-  console.log(user);
+export default function Account() {
+  const [user, loading] = useAuthState(getAuth(firebaseApp));
+
   return (
     <div className="flex flex-col w-container mx-auto px-3 font-inter">
       <Head>
-        <title>Profile - Goalr</title>
+        <title>Account - Goalr</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
@@ -26,11 +26,13 @@ export default function Home() {
           >
             Log out
           </h2>
-          <h1 className="text-3xl font-bold mb-4">Profile</h1>
+          <h1 className="text-3xl font-bold mb-4">Account</h1>
           {loading ? (
             "Loading..."
           ) : user ? (
             <>
+              <h4 className="text-md opacity-50">Nickname</h4>
+              <p className="text-lg font-medium mb-4">{user.displayName}</p>
               <h4 className="text-md opacity-50">Email</h4>
               <p className="text-lg font-medium mb-4">{user.email}</p>
               <h4 className="text-md opacity-50">Last Login</h4>
@@ -61,7 +63,7 @@ export default function Home() {
               </p>
             </>
           ) : (
-            <>Sign up or log in to view profile.</>
+            <>Sign up or log in to view account.</>
           )}
         </div>
       </main>
