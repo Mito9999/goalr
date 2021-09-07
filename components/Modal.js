@@ -25,7 +25,7 @@ const Modal = ({ show, onClose, children, title }) => {
             title ? "justify-between" : "justify-end"
           } text-2xl align-center`}
         >
-          {title && <div className="4xl font-semibold">{title}</div>}
+          {title && <div className="4xl font-semibold mr-6">{title}</div>}
           <MdClose className="cursor-pointer" onClick={handleCloseClick} />
         </div>
         <div className="pt-2.5">{children}</div>

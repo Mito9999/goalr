@@ -9,11 +9,12 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import Modal from "../components/Modal";
 
 export default function Home() {
-  const [showModal, setShowModal] = useState(false);
   const [user, isUserLoading] = useAuthState(getAuth());
   const [cards, setCards] = useState([]);
   const [isLoadingCards, setIsLoadingCards] = useState(false);
   const [userHasGoals, setUserHasGoals] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [cardInModal, setCardInModal] = useState({});
 
   useEffect(() => {
     if (user) {
@@ -147,7 +148,10 @@ export default function Home() {
                     )}
                     <button
                       className="text-lg text-white bg-blue-600 rounded-md ml-2 p-3.5"
-                      onClick={() => setShowModal(true)}
+                      onClick={() => {
+                        setCardInModal(card);
+                        setShowModal(true);
+                      }}
                     >
                       <MdSettings className="h-6 w-6" />
                     </button>
@@ -179,21 +183,99 @@ export default function Home() {
           )}
         </div>
       </main>
-      <Modal
-        onClose={() => setShowModal(false)}
-        show={showModal}
-        title="Modal Title"
-      >
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </Modal>
+      {cardInModal && (
+        <Modal
+          onClose={() => setShowModal(false)}
+          show={showModal}
+          title={cardInModal.title}
+        >
+          <div
+            onChange={(e) =>
+              setCardInModal((prev) => ({
+                ...prev,
+                isManualEntry: e.target.value === "manual" ? true : false,
+              }))
+            }
+            className="my-4"
+          >
+            <h3 className="font-bold mb-2">Type</h3>
+
+            <input
+              type="radio"
+              id="card-type-manual"
+              name="card-type"
+              value="manual"
+              className="mr-1.5"
+              defaultChecked={cardInModal.isManualEntry}
+            />
+            <label htmlFor="card-type-manual">Manual</label>
+
+            <input
+              type="radio"
+              id="card-type-auto"
+              name="card-type"
+              value="auto"
+              className="ml-4 mr-1.5"
+              defaultChecked={!cardInModal.isManualEntry}
+            />
+            <label htmlFor="card-type-auto">Auto</label>
+          </div>
+          <div className="mb-4">
+            <h3 className="font-bold mb-2">Goal</h3>
+
+            <input
+              type="number"
+              value={cardInModal.goal}
+              className="border-2 border-gray-200 rounded-md p-2 w-60"
+              onChange={(e) =>
+                setCardInModal((prev) => ({
+                  ...prev,
+                  goal: Number(e.target.value),
+                }))
+              }
+            />
+          </div>
+          <div className="mb-4">
+            <h3 className="font-bold mb-2">Units</h3>
+
+            <input
+              type="text"
+              value={cardInModal.units}
+              className="border-2 border-gray-200 rounded-md p-2 w-60"
+              onChange={(e) =>
+                setCardInModal((prev) => ({ ...prev, units: e.target.value }))
+              }
+            />
+          </div>
+          <div className="mb-4">
+            <h3 className="font-bold mb-2">Inspiration</h3>
+            <textarea
+              value={cardInModal.inspiration}
+              onChange={(e) =>
+                setCardInModal((prev) => ({
+                  ...prev,
+                  inspiration: e.target.value,
+                }))
+              }
+              className="w-60 p-2 border-2 border-gray-200 rounded-md"
+            />
+          </div>
+          <button
+            className="text-lg text-white bg-blue-600 px-8 py-3 rounded-md w-full"
+            onClick={() => {
+              const newCards = [...cards];
+              const oldCardIndex = newCards.findIndex(
+                (card) => card.id === cardInModal.id
+              );
+              newCards[oldCardIndex] = { ...cardInModal };
+              setCards(newCards);
+              setShowModal(false);
+            }}
+          >
+            Done
+          </button>
+        </Modal>
+      )}
     </div>
   );
 }
