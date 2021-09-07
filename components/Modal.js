@@ -31,7 +31,9 @@ const Modal = ({ show, onClose, children, title }) => {
         <div className="pt-2.5">{children}</div>
       </div>
     </div>
-  ) : null;
+  ) : (
+    <></>
+  );
 
   if (isBrowser) {
     return ReactDOM.createPortal(
@@ -39,7 +41,7 @@ const Modal = ({ show, onClose, children, title }) => {
       document.getElementById("modal-root")
     );
   } else {
-    return null;
+    return <></>;
   }
 };
 
