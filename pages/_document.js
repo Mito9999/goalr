@@ -8,6 +8,7 @@ class MyDocument extends Document {
         <body style={{ overflowY: "scroll", minHeight: "100vh" }}>
           <Main />
           <NextScript />
+          <div id="modal-root"></div>
         </body>
       </Html>
     );

@@ -12,6 +12,7 @@ module.exports = {
         container: "1010px",
         cardContainer: "1064px",
       },
+      maxWidth: { container: "1010px", cardContainer: "1064px" },
       height: {
         hero: "540px",
         min: "min-content",

@@ -81,6 +81,7 @@ export const seedDb = async (uid) => {
   await setDoc(doc(db, "userGoals", uid), {
     goals: [
       {
+        id: 1,
         title: "Typing",
         data: [
           { value: 92 },
@@ -97,6 +98,7 @@ export const seedDb = async (uid) => {
         isManualEntry: false,
       },
       {
+        id: 2,
         title: "Weight Lifting",
         data: [
           { value: 150 },
@@ -115,6 +117,7 @@ export const seedDb = async (uid) => {
         isManualEntry: true,
       },
       {
+        id: 3,
         title: "Passive Income",
         data: [
           { value: 100 },

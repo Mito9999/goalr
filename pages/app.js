@@ -6,8 +6,10 @@ import { getAuth } from "firebase/auth";
 import { seedDb } from "../firebase/clientApp";
 import { useEffect, useState } from "react";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
+import Modal from "../components/Modal";
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
   const [user, isUserLoading] = useAuthState(getAuth());
   const [cards, setCards] = useState([]);
   const [isLoadingCards, setIsLoadingCards] = useState(false);
@@ -38,7 +40,7 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div className="flex flex-col w-cardContainer mx-auto px-3 font-inter">
+    <div className="flex flex-col max-w-cardContainer mx-auto px-3 font-inter">
       <Head>
         <title>Goalr App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -57,21 +59,21 @@ export default function Home() {
             Goals{" "}
             {isLoadingCards && (
               <svg
-                class="animate-spin h-5 w-5 ml-4 my-auto text-black"
+                className="animate-spin h-5 w-5 ml-4 my-auto text-black"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
               >
                 <circle
-                  class="opacity-25"
+                  className="opacity-25"
                   cx="12"
                   cy="12"
                   r="10"
                   stroke="currentColor"
-                  stroke-width="4"
+                  strokeWidth="4"
                 ></circle>
                 <path
-                  class="opacity-75"
+                  className="opacity-75"
                   fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
@@ -79,7 +81,7 @@ export default function Home() {
             )}
           </h1>
         </div>
-        <div className="flex flex-col w-cardContainer mb-8">
+        <div className="flex flex-col max-w-cardContainer mb-8">
           {!userHasGoals ? (
             <div className="bg-gray-50 my-3 rounded-md p-8 border border-gray-200 flex justify-center items-center text-2xl">
               You haven't set any goals yet. Click below to get started!
@@ -113,8 +115,8 @@ export default function Home() {
                     {card.goal} {card.units !== "$" && card.units}
                   </p>
                 </div>
-                <div className="w-96 h-32">
-                  <ResponsiveContainer width="100%" height="100%">
+                <div className="flex-1 h-32">
+                  <div className="m-auto w-min">
                     <LineChart width={300} height={100} data={card.data}>
                       <Line
                         type="monotone"
@@ -128,7 +130,7 @@ export default function Home() {
                         hide
                       />
                     </LineChart>
-                  </ResponsiveContainer>
+                  </div>
                 </div>
                 <div className="flex flex-col w-min">
                   <div className="flex items-center">
@@ -143,7 +145,10 @@ export default function Home() {
                         Refresh
                       </button>
                     )}
-                    <button className="text-lg text-white bg-blue-600 rounded-md ml-2 p-3.5">
+                    <button
+                      className="text-lg text-white bg-blue-600 rounded-md ml-2 p-3.5"
+                      onClick={() => setShowModal(true)}
+                    >
                       <MdSettings className="h-6 w-6" />
                     </button>
                   </div>
@@ -174,6 +179,21 @@ export default function Home() {
           )}
         </div>
       </main>
+      <Modal
+        onClose={() => setShowModal(false)}
+        show={showModal}
+        title="Modal Title"
+      >
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
+      </Modal>
     </div>
   );
 }

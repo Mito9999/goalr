@@ -7,7 +7,7 @@ export default function Account() {
   const [user, loading] = useAuthState(getAuth(firebaseApp));
 
   return (
-    <div className="flex flex-col w-container mx-auto px-3 font-inter">
+    <div className="flex flex-col max-w-container mx-auto px-3 font-inter">
       <Head>
         <title>Account - Goalr</title>
         <link rel="icon" href="/favicon.ico" />

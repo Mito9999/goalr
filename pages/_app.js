@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
 
-      <header className="h-16 w-container mx-auto px-3 text-black text-lg flex font-inter">
+      <header className="h-16 max-w-container mx-auto px-3 text-black text-lg flex font-inter">
         <Link href="/">
           <div className={`mr-3 cursor-pointer flex items-center font-bold`}>
             Goalr
@@ -39,7 +39,9 @@ function MyApp({ Component, pageProps }) {
           </div>
         </Link>
 
-        {user ? (
+        {loading ? (
+          <></>
+        ) : user ? (
           <>
             <Link href="/account">
               <div className={`ml-auto cursor-pointer flex items-center`}>
