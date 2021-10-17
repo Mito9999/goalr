@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -23,7 +24,11 @@ export default function Home() {
             </Link>
           </div>
           <div>
-            <img src="https://via.placeholder.com/300x500?text=Goalr+demo+here" />
+            <Image
+              src="/demo.png"
+              width={399 / 1.5 + "px"}
+              height={839 / 1.5 + "px"}
+            />
           </div>
         </div>
       </main>

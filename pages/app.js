@@ -50,9 +50,9 @@ export default function Home() {
             cards.map((card) => (
               <div
                 key={card.title}
-                className="bg-gray-50 my-3 rounded-md p-8 border border-gray-200 flex justify-between items-center"
+                className="bg-gray-50 my-3 rounded-md p-8 border border-gray-200 flex justify-between md:items-center flex-col md:flex-row"
               >
-                <div>
+                <div className="flex flex-col order-1">
                   <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
                   <h4 className="text-md opacity-50">Recent</h4>
                   <p className="text-lg font-medium">
@@ -75,25 +75,9 @@ export default function Home() {
                     {card.goal} {card.units !== "$" && card.units}
                   </p>
                 </div>
-                <div className="flex-1 h-32">
-                  <div className="m-auto w-min">
-                    <LineChart width={300} height={100} data={card.data}>
-                      <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke="#8884d8"
-                        strokeWidth={2}
-                      />
-                      <YAxis
-                        type="number"
-                        domain={["dataMin", "dataMax"]}
-                        hide
-                      />
-                    </LineChart>
-                  </div>
-                </div>
-                <div className="flex flex-col w-min">
-                  <div className="flex items-center">
+
+                <div className="flex flex-col sm:w-min order-2 md:order-3">
+                  <div className="flex items-center mt-4 md:mt-0">
                     {card.isManualEntry ? (
                       <button className="text-lg text-white bg-blue-600 px-8 py-3 rounded-md flex items-center w-max">
                         <MdAdd className="mr-2" />
@@ -125,6 +109,23 @@ export default function Home() {
                           ) + "..."
                         : card.inspiration}
                     </p>
+                  </div>
+                </div>
+                <div className="flex-1 h-32 order-3 md:order-2">
+                  <div className="md:m-auto w-min">
+                    <LineChart width={300} height={100} data={card.data}>
+                      <Line
+                        type="monotone"
+                        dataKey="value"
+                        stroke="#8884d8"
+                        strokeWidth={2}
+                      />
+                      <YAxis
+                        type="number"
+                        domain={["dataMin", "dataMax"]}
+                        hide
+                      />
+                    </LineChart>
                   </div>
                 </div>
               </div>
