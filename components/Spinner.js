@@ -1,8 +1,12 @@
-export default function Spinner({ loading = false }) {
+export default function Spinner({
+  loading = false,
+  color = "black",
+  className = "",
+}) {
   if (loading) {
     return (
       <svg
-        className="animate-spin h-5 w-5 ml-4 my-auto text-black"
+        className={`animate-spin h-5 w-5 my-auto text-black text-${color} ${className}`}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

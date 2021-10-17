@@ -134,3 +134,11 @@ export const seedDb = async (uid) => {
     ],
   });
 };
+
+import { updateDoc } from "firebase/firestore";
+export const updateGoals = async (uid, newGoals) => {
+  const db = getFirestore();
+  await updateDoc(doc(db, "userGoals", uid), {
+    goals: newGoals,
+  });
+};

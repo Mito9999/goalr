@@ -3,7 +3,7 @@ import { LineChart, Line, YAxis } from "recharts";
 import { MdRefresh, MdAdd, MdSettings } from "react-icons/md";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
-import { seedDb } from "../firebase/clientApp";
+import { seedDb, updateGoals } from "../firebase/clientApp";
 import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import Modal from "../components/Modal";
@@ -16,6 +16,7 @@ export default function Home() {
   const [userHasGoals, setUserHasGoals] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [cardInModal, setCardInModal] = useState({});
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -223,11 +224,27 @@ export default function Home() {
                 (card) => card.id === cardInModal.id
               );
               newCards[oldCardIndex] = { ...cardInModal };
-              setCards(newCards);
-              setShowModal(false);
+
+              setIsLoadingModal(true);
+
+              updateGoals(user.uid, newCards)
+                .then(() => {
+                  setCards(newCards);
+                  setIsLoadingModal(false);
+                })
+                .finally(() => {
+                  setShowModal(false);
+                });
             }}
           >
-            Done
+            <div className="flex w-min mx-auto">
+              <Spinner
+                loading={isLoadingModal}
+                color="white"
+                className="w-min"
+              />{" "}
+              <span className={`w-min ${isLoadingModal && "pl-3"}`}>Done</span>
+            </div>
           </button>
         </Modal>
       ),
@@ -248,7 +265,7 @@ export default function Home() {
               : "Log in to save your goals!"}
           </h2>
           <h1 className="text-3xl font-bold flex">
-            Goals <Spinner loading={isLoadingCards} />
+            Goals <Spinner loading={isLoadingCards} className="ml-4" />
           </h1>
         </div>
 
